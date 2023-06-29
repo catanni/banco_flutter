@@ -127,7 +127,10 @@ class _TransferenciaScreenState extends State<TransferenciaScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Conta de Origem: ${widget.account1['name']}'),
+              Text(
+                'Conta de Origem: ${widget.account1['name']}',
+                style: const TextStyle(fontSize: 20),
+              ),
               TextFormField(
                 controller: _valorController,
                 decoration: const InputDecoration(

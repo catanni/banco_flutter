@@ -76,21 +76,24 @@ class _SaqueScreenState extends State<SaqueScreen> {
     widget.account1['balance'] = newBalance.toString();
     try {
       Dio dio = Dio();
-      await dio.put(
+      var put = await dio.put(
         'http://192.168.0.79:8080/1',
         data: {
           'balance': widget.account1['balance'],
         },
       );
-      Response response = await dio.post('http://192.168.0.79:8080/transaction',
+      if (put.statusCode == 200) {
+        Response response = await dio.post(
+          'http://192.168.0.79:8080/transaction',
           data: {
-            'id': 'null',
+            'id': '',
             'accountId': widget.account1['id'],
             'type': TypeTransaction.SAQUE.descricao,
             'balance': widget.account1['balance']
           },
-          options: Options(headers: {'Content-Type': 'application/json'}));
-      print(response);
+        );
+        print(response);
+      }
     } catch (error) {
       print('Erro na requisição: $error');
     }

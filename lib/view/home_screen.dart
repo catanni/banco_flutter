@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                   child: Text(
                     'Olá, ${account1['name']}',
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 22,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -53,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                   const Text(
                     'Conta',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -64,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                   Text(
                     'R\$ ${account1['balance']}',
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -195,7 +195,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         minimumSize: const Size(50, 50),
                         backgroundColor: const Color.fromARGB(255, 44, 43, 43)),
-                    child: const Icon(Icons.swap_horiz, size: 40),
+                    child: const Icon(Icons.list, size: 40),
                     onPressed: () {
                       Navigator.push(
                         context,

@@ -72,8 +72,8 @@ class _ExtratoScreenState extends State<ExtratoScreen> {
                       );
 
                       return ListTile(
-                        titleTextStyle: TextStyle(fontSize: 20),
-                        subtitleTextStyle: TextStyle(fontSize: 18),
+                        titleTextStyle: const TextStyle(fontSize: 20),
+                        subtitleTextStyle: const TextStyle(fontSize: 18),
                         title: Text('Tipo: ${transacoes.type}'),
                         subtitle: Text('Valor: R\$ ${transacoes.balance}'),
                       );

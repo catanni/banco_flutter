@@ -56,19 +56,18 @@ class _DepositoScreenState extends State<DepositoScreen> {
     try {
       Dio dio = Dio();
       await dio.put(
-        'http://192.168.0.79:8080/1',
+        'http://192.168.0.79:8080/account/1',
         data: {
           'balance': widget.account1['balance'],
         },
       );
-      print("$widget.account1['balance']");
       Response response = await dio.post(
         'http://192.168.0.79:8080/transaction',
         data: {
-          'id': "null",
+          'id': '',
           'accountId': widget.account1['id'],
           'type': TypeTransaction.DEPOSITO.descricao,
-          'balance': widget.account1['balance']
+          'balance': balance
         },
       );
       print(response);
@@ -103,7 +102,7 @@ class _DepositoScreenState extends State<DepositoScreen> {
         title: const Text('Depósito'),
         backgroundColor: Colors.black,
       ),
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.deepPurple[400],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

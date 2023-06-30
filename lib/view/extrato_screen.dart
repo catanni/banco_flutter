@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
 import '../model/transacoes.dart';
 
 class ExtratoScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class ExtratoScreen extends StatefulWidget {
 
 class _ExtratoScreenState extends State<ExtratoScreen> {
   TextEditingController _valorController = TextEditingController();
-  List<Transacoes> _transacoes = [];
+  List<dynamic> _transacoes = [];
 
   @override
   void initState() {
@@ -22,38 +23,13 @@ class _ExtratoScreenState extends State<ExtratoScreen> {
   }
 
   void _getTransacoes() async {
-    //Dio dio = Dio();
-    try {
-      final response = await Dio().get(
-        'http://192.168.0.79:8080/transaction/$_transacoes',
-        queryParameters: {'accountId': widget.account1},
-      );
+    Dio dio = Dio();
+    Response response = await dio.get('http://192.168.0.79:8080/transaction/1');
+    List<dynamic> transacoes = response.data;
 
-      if (response.statusCode == 200) {
-        final List<dynamic> data = response.data;
-        List<Transacoes> transacoes =
-            data.map((item) => Transacoes.fromJson(item)).toList();
-
-        transacoes.sort(
-          (a, b) => b.id!.compareTo(a.id!),
-        );
-
-        setState(() {
-          _transacoes = transacoes;
-        });
-
-        debugPrint('dados: $transacoes');
-      } else {}
-    } catch (error) {}
-  }
-
-  List<Widget> buildTransacoesList() {
-    return _transacoes.map((transacao) {
-      return ListTile(
-        title: Text('Tipo: ${transacao.type}'),
-        subtitle: Text('Valor: ${transacao.balance}'),
-      );
-    }).toList();
+    setState(() {
+      _transacoes = transacoes;
+    });
   }
 
   @override
@@ -65,31 +41,46 @@ class _ExtratoScreenState extends State<ExtratoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.deepPurple[400],
       appBar: AppBar(
-        title: const Text('Extrato'),
+        title: Text('Extrato'),
         backgroundColor: Colors.black,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              'Histórico',
-              style: TextStyle(
-                fontSize: 24,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Histórico',
+                style: TextStyle(fontSize: 24),
               ),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: ListView(
-                children: buildTransacoesList(),
+              const SizedBox(height: 20),
+              Expanded(
+                child: ListView.builder(
+                    itemCount: _transacoes.length,
+                    itemBuilder: (context, index) {
+                      Map<String, dynamic> mapaTransacoes = _transacoes[
+                          index]; // Supondo que _transacoes seja uma lista de mapas
+
+                      // Converta o mapa para uma instância de Transacoes
+                      Transacoes transacoes = Transacoes(
+                        accountId: widget.account1['id'],
+                        type: mapaTransacoes['type'],
+                        balance: mapaTransacoes['balance'].toString(),
+                      );
+
+                      return ListTile(
+                        titleTextStyle: TextStyle(fontSize: 20),
+                        subtitleTextStyle: TextStyle(fontSize: 18),
+                        title: Text('Tipo: ${transacoes.type}'),
+                        subtitle: Text('Valor: R\$ ${transacoes.balance}'),
+                      );
+                    }),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

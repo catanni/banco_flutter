@@ -17,6 +17,8 @@ class ATMScreen extends StatefulWidget {
 class _ATMScreenState extends State<ATMScreen> {
   Account? account1;
   Account? account2;
+  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void initState() {
@@ -26,13 +28,16 @@ class _ATMScreenState extends State<ATMScreen> {
   }
 
   void _login(BuildContext context) async {
+    String user = _userController.text;
+    String password = _passwordController.text;
+
     try {
       Dio dio = Dio();
       Response response = await dio.post(
         'http://192.168.0.79:8080/auth',
         data: {
-          'name': "Bia",
-          'pin': "123",
+          'name': user,
+          'pin': password,
         },
       );
       print(response);
@@ -40,7 +45,6 @@ class _ATMScreenState extends State<ATMScreen> {
         Response response = await dio.get('http://192.168.0.79:8080/account/1');
         await dio.get('http://192.168.0.79:8080/account/2');
         if (response.statusCode == 200) {
-          print(response);
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -67,11 +71,12 @@ class _ATMScreenState extends State<ATMScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const TextField(
+              TextField(
+                controller: _userController,
                 keyboardType: TextInputType.text,
                 autofocus: true,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-                decoration: InputDecoration(
+                style: const TextStyle(color: Colors.white, fontSize: 20),
+                decoration: const InputDecoration(
                   label: Text("Nome"),
                   labelStyle: TextStyle(color: Colors.white, fontSize: 30),
                   focusedBorder: UnderlineInputBorder(
@@ -84,12 +89,13 @@ class _ATMScreenState extends State<ATMScreen> {
               const SizedBox(
                 height: 40,
               ),
-              const TextField(
+              TextField(
+                controller: _passwordController,
                 keyboardType: TextInputType.text,
                 autofocus: true,
                 obscureText: true,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-                decoration: InputDecoration(
+                style: const TextStyle(color: Colors.white, fontSize: 20),
+                decoration: const InputDecoration(
                   label: Text("Senha"),
                   labelStyle: TextStyle(color: Colors.white, fontSize: 30),
                   focusedBorder: UnderlineInputBorder(

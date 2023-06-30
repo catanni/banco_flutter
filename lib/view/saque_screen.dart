@@ -76,20 +76,20 @@ class _SaqueScreenState extends State<SaqueScreen> {
     widget.account1['balance'] = newBalance.toString();
     try {
       Dio dio = Dio();
-      var put = await dio.put(
-        'http://192.168.0.79:8080/1',
+      var response = await dio.put(
+        'http://192.168.0.79:8080/account/1',
         data: {
           'balance': widget.account1['balance'],
         },
       );
-      if (put.statusCode == 200) {
+      if (response.statusCode == 200) {
         Response response = await dio.post(
           'http://192.168.0.79:8080/transaction',
           data: {
             'id': '',
             'accountId': widget.account1['id'],
             'type': TypeTransaction.SAQUE.descricao,
-            'balance': widget.account1['balance']
+            'balance': balance
           },
         );
         print(response);
@@ -124,7 +124,7 @@ class _SaqueScreenState extends State<SaqueScreen> {
         title: const Text('Saque'),
         backgroundColor: Colors.black,
       ),
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.deepPurple[400],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

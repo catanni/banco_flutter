@@ -4,7 +4,7 @@ class Transacoes {
   int? id;
   int accountId;
   String type;
-  double balance;
+  String balance;
 
   Transacoes(
       {this.id,
@@ -26,7 +26,7 @@ class Transacoes {
       id: map['id'] as int,
       accountId: map['accountId'] as int,
       type: map['type'] as String,
-      balance: map['balance'] as double,
+      balance: map['balance'],
     );
   }
 

@@ -17,6 +17,19 @@ class TransferenciaScreen extends StatefulWidget {
 
 class _TransferenciaScreenState extends State<TransferenciaScreen> {
   TextEditingController _valorController = TextEditingController();
+  dynamic account2;
+
+  void initState() {
+    super.initState();
+    account2 = act();
+  }
+
+  Future<String> act() async {
+    Dio dio = Dio();
+    Response response = await dio.get('http://192.168.0.79:8080/account/2');
+    var account2 = response.data['name'];
+    return account2;
+  }
 
   @override
   void dispose() {
@@ -32,7 +45,7 @@ class _TransferenciaScreenState extends State<TransferenciaScreen> {
     String balance = _valorController.text;
     double? balanceParsed = double.tryParse(balance);
     double currentBalance = double.parse(widget.account1['balance']);
-    //Map accountDes = account2;
+
     double? balanceAc2 = double.tryParse(account2['balance']);
 
     if (balanceParsed! > currentBalance) {
@@ -85,7 +98,7 @@ class _TransferenciaScreenState extends State<TransferenciaScreen> {
           'id': "",
           'accountId': widget.account1['id'],
           'type': TypeTransaction.TRANSFERENCIA.descricao,
-          'balance': newBalance
+          'balance': balance
         },
       );
     } catch (error) {
@@ -104,6 +117,7 @@ class _TransferenciaScreenState extends State<TransferenciaScreen> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
               child: const Text('OK'),
             ),
@@ -120,17 +134,13 @@ class _TransferenciaScreenState extends State<TransferenciaScreen> {
         backgroundColor: Colors.black,
         title: const Text('Transferencia'),
       ),
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.deepPurple[400],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Conta de Origem: ${widget.account1['name']}',
-                style: const TextStyle(fontSize: 20),
-              ),
               TextFormField(
                 controller: _valorController,
                 decoration: const InputDecoration(

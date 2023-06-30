@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(150.0),
         child: AppBar(
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.deepPurple[400],
           flexibleSpace: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
